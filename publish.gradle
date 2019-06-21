@@ -1,0 +1,13 @@
+apply plugin: 'com.novoda.bintray-release'
+apply from: '../dependencies.gradle'
+
+publish {
+    userOrg = 'devmagician'
+    groupId = 'com.github.skydoves'
+    artifactId = 'only'
+    publishVersion = versions.versionName
+    desc = 'This is Only by skydoves'
+    website = 'https://github.com/skydoves/Chance'
+    issueTracker = "${website}/issues"
+    repository = "${website}.git"
+}
