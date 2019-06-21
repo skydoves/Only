@@ -84,7 +84,7 @@ object Only {
   /** execute the onDo block only as many times as necessary. */
   inline fun onDo(
     name: String,
-    times: Int = 1,
+    times: Int,
     crossinline onDo: () -> Unit
   ): Only {
 
@@ -98,7 +98,7 @@ object Only {
    */
   inline fun onDo(
     name: String,
-    times: Int = 1,
+    times: Int,
     crossinline onDo: () -> Unit,
     crossinline onDone: () -> Unit
   ): Only {
@@ -125,7 +125,7 @@ object Only {
    */
   inline fun onDo(
     name: String,
-    times: Int = 1,
+    times: Int,
     crossinline onDo: () -> Unit,
     version: String = ""
   ): Only {
@@ -143,7 +143,7 @@ object Only {
    */
   inline fun onDo(
     name: String,
-    times: Int = 1,
+    times: Int,
     crossinline onDo: () -> Unit,
     crossinline onDone: () -> Unit,
     version: String = ""
@@ -151,6 +151,39 @@ object Only {
 
     affectVersion(name, version)
     onDo(name, times, onDo, onDone)
+    return this@Only
+  }
+
+  /** execute the onDo block only once. */
+  inline fun onDoOnce(
+    name: String,
+    crossinline onDo: () -> Unit,
+    crossinline onDone: () -> Unit = {},
+    version: String = ""): Only {
+
+    onDo(name, 1, onDo, onDone, version)
+    return this@Only
+  }
+
+  /** execute the onDo block only twice. */
+  inline fun onDoTwice(
+    name: String,
+    crossinline onDo: () -> Unit,
+    crossinline onDone: () -> Unit = {},
+    version: String = ""): Only {
+
+    onDo(name, 2, onDo, onDone, version)
+    return this@Only
+  }
+
+  /** execute the onDo block only thrice. */
+  inline fun onDoThrice(
+    name: String,
+    crossinline onDo: () -> Unit,
+    crossinline onDone: () -> Unit = {},
+    version: String = ""): Only {
+
+    onDo(name, 3, onDo, onDone, version)
     return this@Only
   }
 

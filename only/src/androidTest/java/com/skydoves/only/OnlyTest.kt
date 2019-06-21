@@ -45,7 +45,7 @@ class OnlyTest {
   @Test
   fun onDoTest() {
     var count = 0
-    Only.onDo("onDoTest") {
+    Only.onDo("onDoTest", times = 1) {
       count++
     }
 
@@ -154,7 +154,7 @@ class OnlyTest {
   @Test
   fun clearOnlyTest() {
     var count = 0
-    Only.onDo("clearOnlyTest") {
+    Only.onDo("clearOnlyTest", times = 1) {
       count++
     }
 
