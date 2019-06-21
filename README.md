@@ -16,6 +16,8 @@ Easy way to run block codes only as many times as necessary.
 </p>
 
 ## Download
+[![Download](https://api.bintray.com/packages/devmagician/maven/only/images/download.svg)](https://bintray.com/devmagician/maven/only/_latestVersion)
+[![Jitpack](https://jitpack.io/v/skydoves/Only.svg)](https://jitpack.io/#skydoves/Only)
 
 ### Gradle
 And add a dependency code to your **module**'s `build.gradle` file.
