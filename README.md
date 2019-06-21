@@ -8,11 +8,11 @@
 </p>
 
 <p align="center">
-Easy way to run block codes only as many times as necessary.
+An easy way to persistence and run block codes only as many times as necessary on Android.
 </p>
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/24237865/59934539-bbdf1a80-9486-11e9-879b-d447363d11bb.png" width="800" height="417"/>
+<img src="https://github.com/skydoves/Only/blob/master/art/showcase.png" width="800" height="417"/>
 </p>
 
 ## Download
