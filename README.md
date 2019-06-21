@@ -1,10 +1,17 @@
 # Only
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![API](https://img.shields.io/badge/API-15%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=15) <br>
-Easy way to run block codes only as many times as necessary.
-
 <p align="center">
 <img src="https://user-images.githubusercontent.com/24237865/59934539-bbdf1a80-9486-11e9-879b-d447363d11bb.png" width="800" height="417"/>
+</p>
+
+<p align="center">
+  <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
+  <a href="https://android-arsenal.com/api?level=15"><img alt="API" src="https://img.shields.io/badge/API-15%2B-brightgreen.svg?style=flat"/></a>
+  <a href="https://travis-ci.org/skydoves/Only"><img alt="Build Status" src="https://travis-ci.org/skydoves/Only.svg?branch=master"/></a>
+    <a href="https://skydoves.github.io/libraries/only/javadoc/only/com.skydoves.only/index.html"><img alt="Javadoc" src="https://img.shields.io/badge/Javadoc-Only-yellow.svg"/></a>
+</p>
+
+<p align="center">
+Easy way to run block codes only as many times as necessary.
 </p>
 
 ## Download
