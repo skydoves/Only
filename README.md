@@ -12,7 +12,7 @@ An easy way to persistence and run block codes only as many times as necessary o
 </p>
 
 <p align="center">
-<img src="https://github.com/skydoves/Only/blob/master/art/showcase.png" width="900" height="417"/>
+<img src="https://github.com/skydoves/Only/blob/master/art/showcase.png" width="720" height="307"/>
 </p>
 
 ## Download
