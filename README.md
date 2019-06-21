@@ -30,7 +30,7 @@ dependencies {
 Fisrt, initialize the `Only` using `init()` method like below. <br>
 This code can be initialized on `Application` class only once.
 ```kotlin
-Only.init(this)
+Only.init(context)
 ```
 
 ### onDo
@@ -50,7 +50,7 @@ only("introPopup", times = 3) {
 ```
 
 ### onDone
-Below codes will run the `doSomeThingAfterDone()` after run the `onDo` block codes three times.
+Below codes will run the `doSomeThingAfterDone()` and `toast("done")` after run the `onDo` block codes three times.
 
 ```kotlin
 Only.onDo("introPopup", times = 3,
@@ -77,7 +77,7 @@ only("introPopup", times = 3) {
 ```
 
 ### Version Control
-You can renew the run times as 0 using `version`. It will help you control the version.<br>
+`version` helps renew the run times for control the version. <br>
 If the version is different from the old version, run times will be initialized 0.<br>
 
 ```kotlin
@@ -101,23 +101,23 @@ Here is some useful kotlin-dsl functions.
 ```kotlin
 onlyOnce("onlyOnce") { // run the onDo block codes only once.
   onDo { doSomethingOnlyOnce() }
-  onDo { doSomethingAfterDone() }
+  onDone { doSomethingAfterDone() }
 }
 
 onlyTwice("onlyTwice") { // run the onDo block codes only twice.
   onDo { doSomethingOnlyTwice() }
-  onDo { doSomethingAfterDone() }
+  onDone { doSomethingAfterDone() }
 }
 
 onlyThrice("onlyThrice") { // run the onDo block codes only three times.
   onDo { doSomethingOnlyThrice() }
-  onDo { doSomethingAfterDone() }
+  onDone { doSomethingAfterDone() }
   version("1.1.1.1")
 }
 ```
 
 ### Clear times
-You can optionally delete the stored Only data or delete the entire Only data.
+You can optionally delete the stored `Only` times data or delete the entire `Only` times data.
 ```kotlin
 Only.clearOnly("introPopup") // clear one saved times data.
 Only.clearAllOnly() // clear all of the times data on the application.
