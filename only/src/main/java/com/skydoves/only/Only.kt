@@ -159,7 +159,8 @@ object Only {
     name: String,
     crossinline onDo: () -> Unit,
     crossinline onDone: () -> Unit = {},
-    version: String = ""): Only {
+    version: String = ""
+  ): Only {
 
     onDo(name, 1, onDo, onDone, version)
     return this@Only
@@ -170,7 +171,8 @@ object Only {
     name: String,
     crossinline onDo: () -> Unit,
     crossinline onDone: () -> Unit = {},
-    version: String = ""): Only {
+    version: String = ""
+  ): Only {
 
     onDo(name, 2, onDo, onDone, version)
     return this@Only
@@ -181,7 +183,8 @@ object Only {
     name: String,
     crossinline onDo: () -> Unit,
     crossinline onDone: () -> Unit = {},
-    version: String = ""): Only {
+    version: String = ""
+  ): Only {
 
     onDo(name, 3, onDo, onDone, version)
     return this@Only

@@ -7,7 +7,7 @@ publish {
     artifactId = 'only'
     publishVersion = versions.versionName
     desc = 'This is Only by skydoves'
-    website = 'https://github.com/skydoves/Chance'
+    website = 'https://github.com/skydoves/Only'
     issueTracker = "${website}/issues"
     repository = "${website}.git"
 }
