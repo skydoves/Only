@@ -1,7 +1,4 @@
 # Only
-<p align="center">
-<img src="https://user-images.githubusercontent.com/24237865/59934539-bbdf1a80-9486-11e9-879b-d447363d11bb.png" width="800" height="417"/>
-</p>
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
@@ -12,6 +9,10 @@
 
 <p align="center">
 Easy way to run block codes only as many times as necessary.
+</p>
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/24237865/59934539-bbdf1a80-9486-11e9-879b-d447363d11bb.png" width="800" height="417"/>
 </p>
 
 ## Download
