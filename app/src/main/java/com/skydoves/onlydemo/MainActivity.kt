@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     Only.init(this)
 
     onlyOnce("background") {
-      parentLayout.setBackgroundColor(Color.GRAY)
+      onDo { parentLayout.setBackgroundColor(Color.GRAY) }
     }
 
     only("Intro", times = 3) {
