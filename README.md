@@ -79,7 +79,7 @@ only("introPopup", times = 3) {
 ```
 
 ### Version Control
-`version` helps renew the run times for control the version. <br>
+We can renew the persistence times for controlling the version using `version` option. <br>
 If the version is different from the old version, run times will be initialized 0.<br>
 
 ```kotlin
@@ -95,6 +95,16 @@ only("introPopup", times = 3) {
   onDone { doSomethingAfterDone() }
   version("1.1.1.1")
 }
+```
+
+### Create Using Builder
+We can run Only using `Only.Builder` class like below.
+```kotlin
+Only.Builder("introPopup", times = 3)
+  .onDo { showIntroPopup() }
+  .onDone { doSomethingAfterDone() }
+  .version("1.1.1.1")
+  .run()
 ```
 
 ### OnlyOnce, OnlyTwice, OnlyThrice
@@ -118,7 +128,7 @@ onlyThrice("onlyThrice") { // run the onDo block codes only three times.
 }
 ```
 
-### Clear times
+### Clear Times
 You can optionally delete the stored `Only` times data or delete the entire `Only` times data.
 ```kotlin
 Only.clearOnly("introPopup") // clear one saved times data.
@@ -131,22 +141,32 @@ Below codes will show the `button` view only once.
 button.onlyVisibility(name = "myButton", times = 1, visible = true)
 ```
 
+### Debug Mode
+Sometimes on debug, we don't need to persist data and replay onDone block. <br>
+`onlyOnDoDebugMode` helps that ignore persistence data and onDone block when initialization. It runs only onDo block.
+```kotlin
+Only.init(this)
+   .onlyOnDoDebugMode(true)
+```
+
 ## Usage in Java
-You can use `Only` in java project using `Only.Builder` and `Function0`.
+We can run `Only` in java project using `Only.Builder` and `Function0`.
 ```java
-new Only.Builder("introPopup", 1).onDo(new Function0<Unit>() {
-  @Override
-  public Unit invoke() {
-    doSomethingOnlyOnce()
-    return Unit.INSTANCE;
-  }
-}).onDone(new Function0<Unit>() {
-  @Override
-  public Unit invoke() {
-    doSOmethingAfterDone()
-    return Unit.INSTANCE;
-  }
-}).run(); // run the Only
+new Only.Builder("introPopup", 1)
+    .onDo(new Function0<Unit>() {
+      @Override
+      public Unit invoke() {
+        doSomethingOnlyOnce();
+        return Unit.INSTANCE;
+      }
+    })
+    .onDone(new Function0<Unit>() {
+      @Override
+      public Unit invoke() {
+        doSOmethingAfterDone();
+        return Unit.INSTANCE;
+      }
+    }).run(); // run the Only
 ```
 
 ## Find this library useful? :heart:
