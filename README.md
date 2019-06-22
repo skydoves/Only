@@ -3,6 +3,7 @@
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
   <a href="https://android-arsenal.com/api?level=15"><img alt="API" src="https://img.shields.io/badge/API-15%2B-brightgreen.svg?style=flat"/></a>
+    <a href="https://www.codacy.com/app/skydoves/Only?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=skydoves/Only&amp;utm_campaign=Badge_Grade"><img alt="API" src="https://api.codacy.com/project/badge/Grade/3e04de5613974807a8eede8ccebc0a7d"/></a>
   <a href="https://travis-ci.org/skydoves/Only"><img alt="Build Status" src="https://travis-ci.org/skydoves/Only.svg?branch=master"/></a>
     <a href="https://skydoves.github.io/libraries/only/javadoc/only/com.skydoves.only/index.html"><img alt="Javadoc" src="https://img.shields.io/badge/Javadoc-Only-yellow.svg"/></a>
 </p>
