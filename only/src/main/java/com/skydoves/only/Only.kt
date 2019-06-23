@@ -27,23 +27,26 @@ import androidx.annotation.VisibleForTesting
 annotation class OnlyDsl
 
 /** Run [Only] by [Only.Builder] using kotlin dsl. */
+@OnlyDsl
 fun only(name: String, times: Int, block: Only.Builder.() -> Unit): Unit =
   Only.Builder(name, times).apply(block).run()
 
 /** Run only once [Only] by [Only.Builder] using kotlin dsl. */
+@OnlyDsl
 fun onlyOnce(name: String, times: Int = 1, block: Only.Builder.() -> Unit): Unit =
   Only.Builder(name, times).apply(block).run()
 
 /** Run only twice [Only] by [Only.Builder] using kotlin dsl. */
+@OnlyDsl
 fun onlyTwice(name: String, times: Int = 2, block: Only.Builder.() -> Unit): Unit =
   Only.Builder(name, times).apply(block).run()
 
 /** Run only thrice [Only] by [Only.Builder] using kotlin dsl. */
+@OnlyDsl
 fun onlyThrice(name: String, times: Int = 3, block: Only.Builder.() -> Unit): Unit =
   Only.Builder(name, times).apply(block).run()
 
 /** Easy way to run block codes only as many times as necessary. */
-@OnlyDsl
 object Only {
 
   @JvmStatic
@@ -68,6 +71,11 @@ object Only {
     this.isDebuggable = context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE
     this.buildVersion = buildVersion
     return this@Only
+  }
+
+  /** run onDo using [Only.Builder]. */
+  private fun runByBuilder(builder: Builder) {
+    onDo(builder.name, builder.times, builder.onDo, builder.onDone, builder.version)
   }
 
   /** check debugging mode. */
@@ -238,9 +246,10 @@ object Only {
   }
 
   /** Builder class for creating [Only]. */
+  @OnlyDsl
   class Builder(
-    private val name: String,
-    private val times: Int = 1
+    val name: String,
+    val times: Int = 1
   ) {
 
     @JvmField
@@ -255,7 +264,7 @@ object Only {
     fun version(version: String): Builder = apply { this.version = version }
 
     fun run() {
-      onDo(name, times, onDo, onDone, version)
+      Only.runByBuilder(this@Builder)
     }
   }
 }

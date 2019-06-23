@@ -24,7 +24,7 @@ An easy way to persistence and run block codes only as many times as necessary o
 And add a dependency code to your **module**'s `build.gradle` file.
 ```gradle
 dependencies {
-    implementation "com.github.skydoves:only:1.0.0"
+    implementation "com.github.skydoves:only:1.0.1"
 }
 ```
 
