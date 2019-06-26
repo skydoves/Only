@@ -54,6 +54,42 @@ class OnlyTest {
   }
 
   @Test
+  fun onDoOnceTest() {
+    var count = 0
+
+    for (i in 0..5) {
+      Only.onDoOnce("onDoOnceTest", onDo = { count++ })
+    }
+
+    assertThat(count, `is`(1))
+    assertThat(Only.getOnlyTimes("onDoOnceTest"), `is`(1))
+  }
+
+  @Test
+  fun onDoTwiceTest() {
+    var count = 0
+
+    for (i in 0..5) {
+      Only.onDoTwice("onDoTwiceTest", onDo = { count++ })
+    }
+
+    assertThat(count, `is`(2))
+    assertThat(Only.getOnlyTimes("onDoTwiceTest"), `is`(2))
+  }
+
+  @Test
+  fun onDoThriceTest() {
+    var count = 0
+
+    for (i in 0..5) {
+      Only.onDoThrice("onDoThriceTest", onDo = { count++ })
+    }
+
+    assertThat(count, `is`(3))
+    assertThat(Only.getOnlyTimes("onDoThriceTest"), `is`(3))
+  }
+
+  @Test
   fun onlyOnceTest() {
     var count = 0
 
@@ -149,6 +185,36 @@ class OnlyTest {
     assertThat(countOnDo, `is`(0))
     assertThat(countOnDone, `is`(0))
     assertThat(Only.getOnlyTimes("onDoWithVersionTest"), `is`(3))
+  }
+
+  @Test
+  fun builderTest() {
+    var count = 0
+
+    for (i in 1..3) {
+      Only.Builder("builderTest", 3)
+        .onDo { count++ }
+        .run()
+    }
+
+    assertThat(count, `is`(3))
+  }
+
+  @Test
+  fun sameOnlyName() {
+    var count = 0
+
+    onlyOnce("sameOnlyName") {
+      onDo { count++ }
+    }
+    onlyOnce("sameOnlyName") {
+      onDo { count++ }
+    }
+    onlyOnce("sameOnlyName") {
+      onDo { count++ }
+    }
+
+    assertThat(count, `is`(1))
   }
 
   @Test
