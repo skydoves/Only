@@ -24,7 +24,7 @@ An easy way to persistence and run block codes only as many times as necessary o
 And add a dependency code to your **module**'s `build.gradle` file.
 ```gradle
 dependencies {
-    implementation "com.github.skydoves:only:1.0.1"
+    implementation "com.github.skydoves:only:1.0.2"
 }
 ```
 
@@ -53,7 +53,7 @@ only("introPopup", times = 3) {
 ```
 
 ### onDone
-Below codes will run the `doSomeThingAfterDone()` and `toast("done")` after run the `onDo` block codes three times.
+Below codes will run the `doSomethingAfterDone()` and `toast("done")` after run the `onDo` block codes three times.
 
 ```kotlin
 Only.onDo("introPopup", times = 3,
@@ -75,6 +75,40 @@ only("introPopup", times = 3) {
   onDone {
     doSomeThingAfterDone()
     toast("done")
+  }
+}
+```
+
+### onLastDo, onBeforeDone
+We can do pre and post-processing using `onLastDo`, `onBeforeDone` options.
+```kotlin
+only("Intro", times = 3) {
+  onDo {
+    showIntroPopup()
+    toast("onDo only three times")
+  }
+  onLastDo { // executes only once after finished onDo block 3 times.
+    toast("finished onDo")
+  }
+  onBeforeDone { // executes only once before run onDone block.
+    toast("starts onDo")
+  }
+  onDone {
+    doSomethingAfterDone()
+    toast("done")
+  }
+}
+```
+We can apply it for repeating x times.<br>
+Below codes shows review-popup 3 times and checks the user reviewed or not in `onLastDo` block.<br>
+If not, clear times using the `Only.clearOnly` method, and repeat it the first time again.
+```kotlin
+only("Intro", times = 3) {
+  onDo { showReviewRequestPopup() }
+  onLastDo { // executes only once after finished onDo block 3 times.
+    if (!isRequested) {
+      Only.clearOnly(this@only.name)
+    }
   }
 }
 ```
@@ -151,7 +185,15 @@ Only.init(this)
 ```
 
 ## Usage in Java
-We can run `Only` in java project using `Only.Builder` and `Function0`.
+Here are some usages for Java developers.
+```java
+int times = Only.INSTANCE.getOnlyTimes("IntroPopup") ;
+if (times < 3) {
+    Only.INSTANCE.setOnlyTimes("IntroPopup", times + 1);
+    showIntroPopup();
+}
+```
+Or we can run `Only` in java project using `Only.Builder` and `Function0`.
 ```java
 new Only.Builder("introPopup", 1)
     .onDo(new Function0<Unit>() {
