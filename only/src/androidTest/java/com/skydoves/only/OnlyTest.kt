@@ -163,6 +163,69 @@ class OnlyTest {
   }
 
   @Test
+  fun onLastDoTest() {
+    var countOnDo = 0
+    var countOnLastDo = 0
+    var countOnDone = 0
+
+    for (i in 1..5) {
+      only("onLastDoTest", times = 3) {
+        onDo { countOnDo++ }
+        onLastDo { countOnLastDo++ }
+        onDone { countOnDone++ }
+      }
+    }
+
+    assertThat(countOnDo, `is`(3))
+    assertThat(countOnDone, `is`(2))
+    assertThat(countOnLastDo, `is`(1))
+    assertThat(Only.getOnlyTimes("onLastDoTest"), `is`(3))
+  }
+
+  @Test
+  fun onBeforeDoneTest() {
+    var countOnDo = 0
+    var onBeforeDone = 0
+    var countOnDone = 0
+
+    for (i in 1..5) {
+      only("onBeforeDoneTest", times = 3) {
+        onDo { countOnDo++ }
+        onBeforeDone { onBeforeDone++ }
+        onDone { countOnDone++ }
+      }
+    }
+
+    assertThat(countOnDo, `is`(3))
+    assertThat(countOnDone, `is`(2))
+    assertThat(onBeforeDone, `is`(1))
+    assertThat(Only.getOnlyTimes("onBeforeDoneTest"), `is`(3))
+  }
+
+  @Test
+  fun onLastDoWithOnBeforeDoneTest() {
+    var countOnDo = 0
+    var countOnLastDo = 0
+    var onBeforeDone = 0
+    var countOnDone = 0
+
+    for (i in 1..5) {
+      only("onLastDoWithOnBeforeDoneTest", times = 3) {
+        onDo { countOnDo++ }
+        onLastDo { countOnLastDo++ }
+        onBeforeDone { onBeforeDone++ }
+        onDone { countOnDone++ }
+      }
+    }
+
+    assertThat(countOnDo, `is`(3))
+    assertThat(countOnDone, `is`(2))
+    assertThat(countOnLastDo, `is`(1))
+    assertThat(onBeforeDone, `is`(1))
+    assertThat(Only.getOnlyTimes("onLastDoWithOnBeforeDoneTest"), `is`(3))
+  }
+
+  @Test
   fun onDoWithVersionTest() {
     var countOnDo = 0
     var countOnDone = 0

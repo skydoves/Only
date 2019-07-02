@@ -75,7 +75,7 @@ object Only {
 
   /** run onDo using [Only.Builder]. */
   private fun runByBuilder(builder: Builder) {
-    onDo(builder.name, builder.times, builder.onDo, builder.onDone, builder.version)
+    onDo(builder.name, builder.times, builder.onDo, builder.onDone, builder.onLastDo, builder.onBeforeDone, builder.version)
   }
 
   /** check debugging mode. */
@@ -111,19 +111,7 @@ object Only {
     crossinline onDone: () -> Unit
   ): Only {
 
-    // run only onDo block when debug mode.
-    if (isDebugMode()) {
-      onDo()
-      return this@Only
-    }
-
-    val persistVersion = getOnlyTimes(name)
-    if (persistVersion < times) {
-      setOnlyTimes(name, persistVersion + 1)
-      onDo()
-    } else {
-      onDone()
-    }
+    onDo(name, times, onDo, onDone, { }, { })
     return this@Only
   }
 
@@ -139,7 +127,7 @@ object Only {
   ): Only {
 
     affectVersion(name, version)
-    onDo(name, times, onDo, { })
+    onDo(name, times, onDo, { }, { }, { })
 
     return this@Only
   }
@@ -158,7 +146,67 @@ object Only {
   ): Only {
 
     affectVersion(name, version)
-    onDo(name, times, onDo, onDone)
+    onDo(name, times, onDo, onDone, { }, { })
+    return this@Only
+  }
+
+  /**
+   * execute the onDo block only as many times as necessary.
+   * if unnecessary, unCatch block will be executed.
+   * if the version is different from the old version, Only times will be initialized 0.
+   * onLastDo block will be run only once after the last run time of the onDo.
+   * onBeforeDone block will be run only once before the onDone block will be run.
+   */
+  inline fun onDo(
+    name: String,
+    times: Int,
+    crossinline onDo: () -> Unit,
+    crossinline onDone: () -> Unit,
+    crossinline onLastDo: () -> Unit = {},
+    crossinline onBeforeDone: () -> Unit = {}
+  ): Only {
+
+    // run only onDo block when debug mode.
+    if (isDebugMode()) {
+      onDo()
+      return this@Only
+    }
+
+    val persistCode = getOnlyTimes(name)
+    if (persistCode < times) {
+      setOnlyTimes(name, persistCode + 1)
+      onDo()
+
+      if (persistCode == times - 1) {
+        onLastDo()
+      }
+    } else if (persistCode >= times) {
+      if (!getOnBeforeDoneExecuted(name)) {
+        setOnBeforeDoneExecuted(name)
+        onBeforeDone()
+      }
+      onDone()
+    }
+    return this@Only
+  }
+
+  /**
+   * execute the onDo block only as many times as necessary with onLastDo and onBeforeDone.
+   * if unnecessary, unCatch block will be executed.
+   * if the version is different from the old version, Only times will be initialized 0.
+   */
+  inline fun onDo(
+    name: String,
+    times: Int,
+    crossinline onDo: () -> Unit,
+    crossinline onDone: () -> Unit,
+    crossinline onLastDo: () -> Unit = {},
+    crossinline onBeforeDone: () -> Unit = {},
+    version: String = ""
+  ): Only {
+
+    affectVersion(name, version)
+    onDo(name, times, onDo, onDone, onLastDo, onBeforeDone)
     return this@Only
   }
 
@@ -174,6 +222,20 @@ object Only {
     return this@Only
   }
 
+  /** execute the onDo block only once with onLastDo and onBeforeDone. */
+  inline fun onDoOnce(
+    name: String,
+    crossinline onDo: () -> Unit,
+    crossinline onDone: () -> Unit = {},
+    crossinline onLastDo: () -> Unit = {},
+    crossinline onBeforeDone: () -> Unit = {},
+    version: String = ""
+  ): Only {
+
+    onDo(name, 1, onDo, onDone, onLastDo, onBeforeDone, version)
+    return this@Only
+  }
+
   /** execute the onDo block only twice. */
   inline fun onDoTwice(
     name: String,
@@ -186,6 +248,20 @@ object Only {
     return this@Only
   }
 
+  /** execute the onDo block only twice with onLastDo and onBeforeDone. */
+  inline fun onDoTwice(
+    name: String,
+    crossinline onDo: () -> Unit,
+    crossinline onDone: () -> Unit = {},
+    crossinline onLastDo: () -> Unit = {},
+    crossinline onBeforeDone: () -> Unit = {},
+    version: String = ""
+  ): Only {
+
+    onDo(name, 2, onDo, onDone, onLastDo, onBeforeDone, version)
+    return this@Only
+  }
+
   /** execute the onDo block only thrice. */
   inline fun onDoThrice(
     name: String,
@@ -195,6 +271,20 @@ object Only {
   ): Only {
 
     onDo(name, 3, onDo, onDone, version)
+    return this@Only
+  }
+
+  /** execute the onDo block only thrice with onLastDo and onBeforeDone. */
+  inline fun onDoThrice(
+    name: String,
+    crossinline onDo: () -> Unit,
+    crossinline onDone: () -> Unit = {},
+    crossinline onLastDo: () -> Unit = {},
+    crossinline onBeforeDone: () -> Unit = {},
+    version: String = ""
+  ): Only {
+
+    onDo(name, 3, onDo, onDone, onLastDo, onBeforeDone, version)
     return this@Only
   }
 
@@ -235,9 +325,26 @@ object Only {
     return name + "_version"
   }
 
+  /** get Only executed or not about onBeforeDone. */
+  fun getOnBeforeDoneExecuted(name: String): Boolean {
+    return this.preference.getBoolean(getOnBeforeDoneName(name), false)
+  }
+
+  /** set Only executed or not about onBeforeDone. */
+  fun setOnBeforeDoneExecuted(name: String) {
+    return this.preference.edit().putBoolean(getOnBeforeDoneName(name), true).apply()
+  }
+
+  /** get Only version preference naming convention. */
+  private fun getOnBeforeDoneName(name: String): String {
+    return name + "_onBeforeDone"
+  }
+
   /** remove a Only data from the preference. */
   fun clearOnly(name: String) {
     this.preference.edit().remove(name).apply()
+    this.preference.edit().remove(getOnlyVersion(name)).apply()
+    this.preference.edit().remove(getOnBeforeDoneName(name)).apply()
   }
 
   /** clear all Only data from the preference. */
@@ -257,10 +364,16 @@ object Only {
     @JvmField
     var onDone: () -> Unit = { }
     @JvmField
+    var onLastDo: () -> Unit = { }
+    @JvmField
+    var onBeforeDone: () -> Unit = { }
+    @JvmField
     var version: String = ""
 
     fun onDo(onDo: () -> Unit): Builder = apply { this.onDo = onDo }
     fun onDone(onDone: () -> Unit): Builder = apply { this.onDone = onDone }
+    fun onLastDo(onLastDo: () -> Unit): Builder = apply { this.onLastDo = onLastDo }
+    fun onBeforeDone(onBeforeDone: () -> Unit): Builder = apply { this.onBeforeDone = onBeforeDone }
     fun version(version: String): Builder = apply { this.version = version }
 
     fun run() {

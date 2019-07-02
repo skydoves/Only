@@ -43,6 +43,12 @@ class MainActivity : AppCompatActivity() {
       onDo {
         Toast.makeText(baseContext, "shows", Toast.LENGTH_SHORT).show()
       }
+      onLastDo {
+        Toast.makeText(baseContext, "it was the last shows", Toast.LENGTH_SHORT).show()
+      }
+      onBeforeDone {
+        Toast.makeText(baseContext, "starts done", Toast.LENGTH_SHORT).show()
+      }
       onDone {
         Toast.makeText(baseContext, "done", Toast.LENGTH_SHORT).show()
       }
