@@ -176,6 +176,15 @@ Below codes will show the `button` view only once.
 button.onlyVisibility(name = "myButton", times = 1, visible = true)
 ```
 
+### Toast Extension
+Below codes will show toast only x times.
+```kotlin
+onlyToast("toast", 3, "This toast will be shown only three times.")
+onlyOnceToast("toast1", "This toast will be shown only once.")
+onlyTwiceToast("toast2", "This toast will be shown only twice.")
+onlyThriceToast("toast3", "This toast will be shown only thrice.")
+```
+
 ### Debug Mode
 Sometimes on debug, we don't need to persist data and replay onDone block. <br>
 `onlyOnDoDebugMode` helps that ignore persistence data and onDone block when initialization. It runs only onDo block.
