@@ -24,7 +24,7 @@ An easy way to persistence and run block codes only as many times as necessary o
 And add a dependency code to your **module**'s `build.gradle` file.
 ```gradle
 dependencies {
-    implementation "com.github.skydoves:only:1.0.2"
+    implementation "com.github.skydoves:only:1.0.3"
 }
 ```
 
@@ -163,11 +163,11 @@ onlyThrice("onlyThrice") { // run the onDo block codes only three times.
 }
 ```
 
-### Clear Times
-You can optionally delete the stored `Only` times data or delete the entire `Only` times data.
+### Clear Data
+We can optionally delete the stored `Only` target data or delete the whole `Only` data.
 ```kotlin
-Only.clearOnly("introPopup") // clear one saved times data.
-Only.clearAllOnly() // clear all of the times data on the application.
+Only.clearOnly("introPopup") // clears a saved target Only data.
+Only.clearAllOnly() // clears all of the target Only data on the application.
 ```
 
 ### View Extension
@@ -183,6 +183,19 @@ onlyToast("toast", 3, "This toast will be shown only three times.")
 onlyOnceToast("toast1", "This toast will be shown only once.")
 onlyTwiceToast("toast2", "This toast will be shown only twice.")
 onlyThriceToast("toast3", "This toast will be shown only thrice.")
+```
+
+### Marking
+We can mark data to the Only target.
+```kotlin
+only("introPopup", times = 3) {
+  onDo { showIntroPopup() }
+  onDone { doSomethingAfterDone() }
+  mark("abc") // marks only once when run by kotlin dsl or builder class.
+}
+
+Only.mark("introPopup", 3) // changes marking using mark method.
+val marking = Only.getMarking("introPopup") // gets the marked data.
 ```
 
 ### Debug Mode
