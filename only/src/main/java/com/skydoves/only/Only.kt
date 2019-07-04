@@ -75,8 +75,10 @@ object Only {
 
   /** run onDo using [Only.Builder]. */
   private fun runByBuilder(builder: Builder) {
+    if (getOnlyTimes(builder.name) == 0) {
+      mark(builder.name, builder.marking)
+    }
     onDo(builder.name, builder.times, builder.onDo, builder.onDone, builder.onLastDo, builder.onBeforeDone, builder.version)
-    mark(builder.name, builder.marking)
   }
 
   /** check debugging mode. */

@@ -22,7 +22,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
-import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -253,11 +252,21 @@ class OnlyTest {
 
   @Test
   fun markTest() {
-    onlyTwice("markTest") { }
-    assertNull(Only.getMarking("markTest"))
+    for (i in 1..5) {
+      only("markTest", times = 3) {
+        mark(i)
+      }
+    }
+    assertThat(Only.getMarking("markTest"), `is`("1"))
+    Only.clearOnly("markTest")
 
-    onlyTwice("markTest") { mark("marking") }
-    assertThat(Only.getMarking("markTest"), `is`("marking"))
+    for (i in 1..5) {
+      only("markTest", times = 3) {
+        onDo { Only.mark(name, "changedMarking") }
+        mark(i)
+      }
+    }
+    assertThat(Only.getMarking("markTest"), `is`("changedMarking"))
 
     Only.mark("markTest", "newMarking")
     assertThat(Only.getMarking("markTest"), `is`("newMarking"))
