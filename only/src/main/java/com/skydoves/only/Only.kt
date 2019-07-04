@@ -76,6 +76,7 @@ object Only {
   /** run onDo using [Only.Builder]. */
   private fun runByBuilder(builder: Builder) {
     onDo(builder.name, builder.times, builder.onDo, builder.onDone, builder.onLastDo, builder.onBeforeDone, builder.version)
+    mark(builder.name, builder.marking)
   }
 
   /** check debugging mode. */
@@ -332,7 +333,7 @@ object Only {
 
   /** set Only executed or not about onBeforeDone. */
   fun setOnBeforeDoneExecuted(name: String) {
-    return this.preference.edit().putBoolean(getOnBeforeDoneName(name), true).apply()
+    this.preference.edit().putBoolean(getOnBeforeDoneName(name), true).apply()
   }
 
   /** get Only version preference naming convention. */
@@ -340,11 +341,29 @@ object Only {
     return name + "_onBeforeDone"
   }
 
+  /** marks Only tag data. */
+  fun mark(name: String, marking: Any?) {
+    marking?.let { this.preference.edit().putString(getMarkingName(name), it.toString()).apply() }
+  }
+
+  /** gets Only marking data. */
+  fun getMarking(name: String): String? {
+    return this.preference.getString(getMarkingName(name), null)
+  }
+
+  /** get Only marking preference naming convention. */
+  private fun getMarkingName(name: String): String {
+    return name + "_marking"
+  }
+
   /** remove a Only data from the preference. */
   fun clearOnly(name: String) {
-    this.preference.edit().remove(name).apply()
-    this.preference.edit().remove(getOnlyVersion(name)).apply()
-    this.preference.edit().remove(getOnBeforeDoneName(name)).apply()
+    with(this.preference.edit()) {
+      remove(name).apply()
+      remove(getOnlyVersion(name)).apply()
+      remove(getOnBeforeDoneName(name)).apply()
+      remove(getMarkingName(name)).apply()
+    }
   }
 
   /** clear all Only data from the preference. */
@@ -369,12 +388,15 @@ object Only {
     var onBeforeDone: () -> Unit = { }
     @JvmField
     var version: String = ""
+    @JvmField
+    var marking: Any? = null
 
     fun onDo(onDo: () -> Unit): Builder = apply { this.onDo = onDo }
     fun onDone(onDone: () -> Unit): Builder = apply { this.onDone = onDone }
     fun onLastDo(onLastDo: () -> Unit): Builder = apply { this.onLastDo = onLastDo }
     fun onBeforeDone(onBeforeDone: () -> Unit): Builder = apply { this.onBeforeDone = onBeforeDone }
     fun version(version: String): Builder = apply { this.version = version }
+    fun mark(marking: Any?): Builder = apply { this.marking = marking }
 
     fun run() {
       Only.runByBuilder(this@Builder)

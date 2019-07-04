@@ -22,6 +22,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -248,6 +249,18 @@ class OnlyTest {
     assertThat(countOnDo, `is`(0))
     assertThat(countOnDone, `is`(0))
     assertThat(Only.getOnlyTimes("onDoWithVersionTest"), `is`(3))
+  }
+
+  @Test
+  fun markTest() {
+    onlyTwice("markTest") { }
+    assertNull(Only.getMarking("markTest"))
+
+    onlyTwice("markTest") { mark("marking") }
+    assertThat(Only.getMarking("markTest"), `is`("marking"))
+
+    Only.mark("markTest", "newMarking")
+    assertThat(Only.getMarking("markTest"), `is`("newMarking"))
   }
 
   @Test
