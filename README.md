@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-An easy way to persist and run code block only as many times as necessary on Android.
+:bouquet: An easy way to persist and run code block only as many times as necessary on Android.
 </p>
 
 <p align="center">
@@ -22,7 +22,7 @@ An easy way to persist and run code block only as many times as necessary on And
 [![Jitpack](https://jitpack.io/v/skydoves/Only.svg)](https://jitpack.io/#skydoves/Only)
 
 ### Gradle
-And add a dependency code to your **module**'s `build.gradle` file.
+Add a dependency code to your **module**'s `build.gradle` file.
 ```gradle
 dependencies {
     implementation "com.github.skydoves:only:1.0.3"
@@ -47,9 +47,7 @@ Only.onDo("introPopup", times = 3) {
 
 // kotlin dsl
 only("introPopup", times = 3) {
-  onDo {
-    showIntroPopup()
-  }
+  onDo { showIntroPopup() }
 }
 ```
 
@@ -240,7 +238,7 @@ Support it by joining __[stargazers](https://github.com/skydoves/only/stargazers
 
 # License
 ```xml
-Copyright 2019 skydoves
+Copyright 2019 skydoves (Jaewoong Eum)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
