@@ -6,16 +6,11 @@ apply from: '../dependencies.gradle'
 android {
     compileSdkVersion versions.compileSdk
     defaultConfig {
-        applicationId "com.skydoves.needsdemo"
+        applicationId "com.skydoves.onlydemo"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
         versionCode versions.versionCode
         versionName versions.versionName
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
     }
 }
 

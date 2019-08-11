@@ -22,8 +22,8 @@ android {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:$versions.androidxAppcompat"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+    implementation "androidx.appcompat:appcompat:$versions.androidxAppcompat"
 
     testImplementation "junit:junit:$versions.junit"
     testImplementation "org.robolectric:robolectric:$versions.robolectric"
