@@ -21,6 +21,7 @@ package com.skydoves.only
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
+import androidx.annotation.RestrictTo
 import androidx.annotation.VisibleForTesting
 
 @DslMarker
@@ -28,22 +29,22 @@ annotation class OnlyDsl
 
 /** Run [Only] by [Only.Builder] using kotlin dsl. */
 @OnlyDsl
-fun only(name: String, times: Int, block: Only.Builder.() -> Unit): Unit =
+inline fun only(name: String, times: Int, block: Only.Builder.() -> Unit): Unit =
   Only.Builder(name, times).apply(block).run()
 
 /** Run only once [Only] by [Only.Builder] using kotlin dsl. */
 @OnlyDsl
-fun onlyOnce(name: String, times: Int = 1, block: Only.Builder.() -> Unit): Unit =
+inline fun onlyOnce(name: String, times: Int = 1, block: Only.Builder.() -> Unit): Unit =
   Only.Builder(name, times).apply(block).run()
 
 /** Run only twice [Only] by [Only.Builder] using kotlin dsl. */
 @OnlyDsl
-fun onlyTwice(name: String, times: Int = 2, block: Only.Builder.() -> Unit): Unit =
+inline fun onlyTwice(name: String, times: Int = 2, block: Only.Builder.() -> Unit): Unit =
   Only.Builder(name, times).apply(block).run()
 
 /** Run only thrice [Only] by [Only.Builder] using kotlin dsl. */
 @OnlyDsl
-fun onlyThrice(name: String, times: Int = 3, block: Only.Builder.() -> Unit): Unit =
+inline fun onlyThrice(name: String, times: Int = 3, block: Only.Builder.() -> Unit): Unit =
   Only.Builder(name, times).apply(block).run()
 
 /** Easy way to run block codes only as many times as necessary. */
@@ -302,6 +303,7 @@ object Only {
   }
 
   /** get version data from the preference. */
+  @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
   fun affectVersion(name: String, version: String): Boolean {
     val renderVersion = if (version.isEmpty()) buildVersion else version
     if (getOnlyVersion(name).equals(renderVersion)) {
@@ -334,6 +336,7 @@ object Only {
   }
 
   /** set Only executed or not about onBeforeDone. */
+  @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
   fun setOnBeforeDoneExecuted(name: String) {
     this.preference.edit().putBoolean(getOnBeforeDoneName(name), true).apply()
   }
@@ -393,15 +396,24 @@ object Only {
     @JvmField
     var marking: Any? = null
 
+    /** executes the [onDo] block only as many times as necessary. */
     fun onDo(onDo: () -> Unit): Builder = apply { this.onDo = onDo }
+
+    /** executes the [onDone] block after executing x+1 times [onDo] block. */
     fun onDone(onDone: () -> Unit): Builder = apply { this.onDone = onDone }
+
+    /** executes only once the [onLastDo] block after finishing x times [onDo] block. */
     fun onLastDo(onLastDo: () -> Unit): Builder = apply { this.onLastDo = onLastDo }
+
+    /** executes only once the [onBeforeDone] block after before executing [onDone] block. */
     fun onBeforeDone(onBeforeDone: () -> Unit): Builder = apply { this.onBeforeDone = onBeforeDone }
+
+    /** changes version and clear the executed time history. */
     fun version(version: String): Builder = apply { this.version = version }
+
+    /** marks to the [Only] data. */
     fun mark(marking: Any?): Builder = apply { this.marking = marking }
 
-    fun run() {
-      Only.runByBuilder(this@Builder)
-    }
+    fun run() = runByBuilder(this@Builder)
   }
 }
