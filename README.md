@@ -32,7 +32,7 @@ dependencies {
 
 ## Usage
 ### Initialize
-Fisrt, initialize the `Only` using `init()` method like below. <br>
+First, initialize the `Only` using `init()` method like below. <br>
 This code can be initialized on `Application` class only once.
 ```kotlin
 Only.init(context)
