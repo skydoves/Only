@@ -422,14 +422,26 @@ object Only {
     /** executes the [onDo] block only as many times as necessary. */
     fun onDo(onDo: () -> Unit): Builder = apply { this.onDo = onDo }
 
+    /** executes the [onDo] block only as many times as necessary. */
+    fun onDo(runnable: Runnable): Builder = apply { this.onDo = { runnable.run() } }
+
     /** executes the [onDone] block after executing x+1 times [onDo] block. */
     fun onDone(onDone: () -> Unit): Builder = apply { this.onDone = onDone }
+
+    /** executes the [onDone] block after executing x+1 times [onDo] block. */
+    fun onDone(runnable: Runnable): Builder = apply { this.onDone = { runnable.run() } }
 
     /** executes only once the [onLastDo] block after finishing x times [onDo] block. */
     fun onLastDo(onLastDo: () -> Unit): Builder = apply { this.onLastDo = onLastDo }
 
+    /** executes only once the [onLastDo] block after finishing x times [onDo] block. */
+    fun onLastDo(runnable: Runnable): Builder = apply { this.onLastDo = { runnable.run() } }
+
     /** executes only once the [onBeforeDone] block after before executing [onDone] block. */
     fun onBeforeDone(onBeforeDone: () -> Unit): Builder = apply { this.onBeforeDone = onBeforeDone }
+
+    /** executes only once the [onBeforeDone] block after before executing [onDone] block. */
+    fun onBeforeDone(runnable: Runnable): Builder = apply { this.onBeforeDone = { runnable.run() } }
 
     /** changes version and clear the executed time history. */
     fun version(version: String): Builder = apply { this.version = version }
