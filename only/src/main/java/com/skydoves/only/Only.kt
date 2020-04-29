@@ -83,17 +83,20 @@ object Only {
   }
 
   /** check debugging mode. */
+  @JvmStatic
   fun onlyOnDoDebugMode(ignore: Boolean): Only {
     this.doOnDebugMode = ignore
     return this@Only
   }
 
   /** check debug mode. */
+  @JvmStatic
   fun isDebugMode(): Boolean {
     return doOnDebugMode && isDebuggable != 0
   }
 
   /** execute the onDo block only as many times as necessary. */
+  @JvmStatic
   inline fun onDo(
     name: String,
     times: Int,
@@ -108,6 +111,7 @@ object Only {
    * execute the onDo block only as many times as necessary.
    * if unnecessary, unCatch block will be executed.
    */
+  @JvmStatic
   inline fun onDo(
     name: String,
     times: Int,
@@ -123,6 +127,7 @@ object Only {
    * execute the onDo block only as many times as necessary.
    * if the version is different from the old version, Only times will be initialized 0.
    */
+  @JvmStatic
   inline fun onDo(
     name: String,
     times: Int,
@@ -141,6 +146,7 @@ object Only {
    * if unnecessary, unCatch block will be executed.
    * if the version is different from the old version, Only times will be initialized 0.
    */
+  @JvmStatic
   inline fun onDo(
     name: String,
     times: Int,
@@ -161,6 +167,7 @@ object Only {
    * onLastDo block will be run only once after the last run time of the onDo.
    * onBeforeDone block will be run only once before the onDone block will be run.
    */
+  @JvmStatic
   inline fun onDo(
     name: String,
     times: Int,
@@ -199,6 +206,7 @@ object Only {
    * if unnecessary, unCatch block will be executed.
    * if the version is different from the old version, Only times will be initialized 0.
    */
+  @JvmStatic
   inline fun onDo(
     name: String,
     times: Int,
@@ -215,6 +223,7 @@ object Only {
   }
 
   /** execute the onDo block only once. */
+  @JvmStatic
   inline fun onDoOnce(
     name: String,
     crossinline onDo: () -> Unit,
@@ -227,6 +236,7 @@ object Only {
   }
 
   /** execute the onDo block only once with onLastDo and onBeforeDone. */
+  @JvmStatic
   inline fun onDoOnce(
     name: String,
     crossinline onDo: () -> Unit,
@@ -241,6 +251,7 @@ object Only {
   }
 
   /** execute the onDo block only twice. */
+  @JvmStatic
   inline fun onDoTwice(
     name: String,
     crossinline onDo: () -> Unit,
@@ -253,6 +264,7 @@ object Only {
   }
 
   /** execute the onDo block only twice with onLastDo and onBeforeDone. */
+  @JvmStatic
   inline fun onDoTwice(
     name: String,
     crossinline onDo: () -> Unit,
@@ -267,6 +279,7 @@ object Only {
   }
 
   /** execute the onDo block only thrice. */
+  @JvmStatic
   inline fun onDoThrice(
     name: String,
     crossinline onDo: () -> Unit,
@@ -279,6 +292,7 @@ object Only {
   }
 
   /** execute the onDo block only thrice with onLastDo and onBeforeDone. */
+  @JvmStatic
   inline fun onDoThrice(
     name: String,
     crossinline onDo: () -> Unit,
@@ -293,16 +307,19 @@ object Only {
   }
 
   /** get Only time from the preference. */
+  @JvmStatic
   fun getOnlyTimes(name: String): Int {
     return this.preference.getInt(name, 0)
   }
 
   /** set Only time from the preference. */
+  @JvmStatic
   fun setOnlyTimes(name: String, time: Int) {
     this.preference.edit().putInt(name, time).apply()
   }
 
   /** get version data from the preference. */
+  @JvmStatic
   @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
   fun affectVersion(name: String, version: String): Boolean {
     val renderVersion = if (version.isEmpty()) buildVersion else version
@@ -331,11 +348,13 @@ object Only {
   }
 
   /** get Only executed or not about onBeforeDone. */
+  @JvmStatic
   fun getOnBeforeDoneExecuted(name: String): Boolean {
     return this.preference.getBoolean(getOnBeforeDoneName(name), false)
   }
 
   /** set Only executed or not about onBeforeDone. */
+  @JvmStatic
   @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
   fun setOnBeforeDoneExecuted(name: String) {
     this.preference.edit().putBoolean(getOnBeforeDoneName(name), true).apply()
@@ -347,11 +366,13 @@ object Only {
   }
 
   /** marks Only tag data. */
+  @JvmStatic
   fun mark(name: String, marking: Any?) {
     marking?.let { this.preference.edit().putString(getMarkingName(name), it.toString()).apply() }
   }
 
   /** gets Only marking data. */
+  @JvmStatic
   fun getMarking(name: String): String? {
     return this.preference.getString(getMarkingName(name), null)
   }
@@ -362,6 +383,7 @@ object Only {
   }
 
   /** remove a Only data from the preference. */
+  @JvmStatic
   fun clearOnly(name: String) {
     with(this.preference.edit()) {
       remove(name).apply()
@@ -372,6 +394,7 @@ object Only {
   }
 
   /** clear all Only data from the preference. */
+  @JvmStatic
   fun clearAllOnly() {
     this.preference.edit().clear().apply()
   }
