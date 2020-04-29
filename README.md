@@ -26,7 +26,7 @@
 Add a dependency code to your **module**'s `build.gradle` file.
 ```gradle
 dependencies {
-    implementation "com.github.skydoves:only:1.0.4"
+    implementation "com.github.skydoves:only:1.0.5"
 }
 ```
 
@@ -209,29 +209,63 @@ Only.init(this)
 ## Usage in Java
 Here are some usages for Java developers.
 ```java
-int times = Only.INSTANCE.getOnlyTimes("IntroPopup") ;
+int times = Only.getOnlyTimes("IntroPopup") ;
 if (times < 3) {
-    Only.INSTANCE.setOnlyTimes("IntroPopup", times + 1);
+    Only.setOnlyTimes("IntroPopup", times + 1);
     showIntroPopup();
 }
 ```
-Or we can run `Only` in java project using `Only.Builder` and `Function0`.
+### Builder
+we can run `Only` in java project using `Only.Builder` and `Runnable`.
 ```java
 new Only.Builder("introPopup", 1)
-    .onDo(new Function0<Unit>() {
-      @Override
-      public Unit invoke() {
-        doSomethingOnlyOnce();
-        return Unit.INSTANCE;
+  .onDo(new Runnable() {
+    @Override
+    public void run() {
+        doSomethingOnlyOnce();     
       }
     })
-    .onDone(new Function0<Unit>() {
-      @Override
-      public Unit invoke() {
-        doSOmethingAfterDone();
-        return Unit.INSTANCE;
-      }
+   .onDone(new Runnable() {
+     @Override
+     public void run() {
+       doSOmethingAfterDone();
+     }
+   }).run(); // run the Only
+```
+### Java8 lambda expression
+We can make it more simple using Java8 lambda expression.<br>
+Add below codes on your `build.gradle` file.
+```gradle
+android {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+```
+Then you can run the Only like below.
+```java
+new Only.Builder("introPopup", 1)
+    .onDo(() -> {
+      doSomethingOnlyOnce();
+    })
+    .onDone(() -> {
+      doSOmethingAfterDone();
     }).run(); // run the Only
+```
+### Custom util class
+We can create custom util class like what Kotlin's `onlyOnce`.
+```java
+public class OnlyUtils {
+
+  public static void onlyOnce(
+      String name, Runnable runnableOnDo, Runnable runnableOnDone) {
+    new Only.Builder(name, 1)
+        .onDo(runnableOnDo)
+        .onDone(runnableOnDone)
+        .run(); // run the Only
+  }
+}
 ```
 
 ## Find this library useful? :heart:
