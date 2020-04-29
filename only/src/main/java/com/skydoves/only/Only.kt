@@ -50,7 +50,7 @@ inline fun onlyThrice(name: String, times: Int = 3, block: Only.Builder.() -> Un
 /** Easy way to run block codes only as many times as necessary. */
 object Only {
 
-  @JvmStatic
+  @Volatile
   private lateinit var preference: SharedPreferences
   private lateinit var buildVersion: String
   private var isDebuggable = 0
@@ -68,9 +68,11 @@ object Only {
   @JvmStatic
   @VisibleForTesting
   fun init(context: Context, buildVersion: String): Only {
-    this.preference = context.applicationContext.getSharedPreferences("Only", Context.MODE_PRIVATE)
-    this.isDebuggable = context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE
-    this.buildVersion = buildVersion
+    if (!::preference.isInitialized) {
+      this.preference = context.applicationContext.getSharedPreferences("Only", Context.MODE_PRIVATE)
+      this.isDebuggable = context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE
+      this.buildVersion = buildVersion
+    }
     return this@Only
   }
 
@@ -315,7 +317,7 @@ object Only {
   /** set Only time from the preference. */
   @JvmStatic
   fun setOnlyTimes(name: String, time: Int) {
-    this.preference.edit().putInt(name, time).apply()
+    this.preference.edit { putInt(name, time) }
   }
 
   /** get version data from the preference. */
@@ -339,7 +341,7 @@ object Only {
 
   /** set the Only version from the preference. */
   private fun setOnlyVersion(name: String, version: String) {
-    this.preference.edit().putString(getOnlyVersionName(name), version).apply()
+    this.preference.edit { putString(getOnlyVersionName(name), version) }
   }
 
   /** get Only version preference naming convention. */
@@ -357,7 +359,7 @@ object Only {
   @JvmStatic
   @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
   fun setOnBeforeDoneExecuted(name: String) {
-    this.preference.edit().putBoolean(getOnBeforeDoneName(name), true).apply()
+    this.preference.edit { putBoolean(getOnBeforeDoneName(name), true) }
   }
 
   /** get Only version preference naming convention. */
@@ -368,7 +370,7 @@ object Only {
   /** marks Only tag data. */
   @JvmStatic
   fun mark(name: String, marking: Any?) {
-    marking?.let { this.preference.edit().putString(getMarkingName(name), it.toString()).apply() }
+    marking?.let { this.preference.edit { putString(getMarkingName(name), it.toString()) } }
   }
 
   /** gets Only marking data. */
@@ -385,19 +387,28 @@ object Only {
   /** remove a Only data from the preference. */
   @JvmStatic
   fun clearOnly(name: String) {
-    with(this.preference.edit()) {
+    this.preference.edit {
       remove(name).apply()
-      remove(getOnlyVersion(name)).apply()
-      remove(getOnBeforeDoneName(name)).apply()
-      remove(getMarkingName(name)).apply()
+      remove(getOnlyVersion(name))
+      remove(getOnBeforeDoneName(name))
+      remove(getMarkingName(name))
     }
   }
 
   /** clear all Only data from the preference. */
   @JvmStatic
   fun clearAllOnly() {
-    this.preference.edit().clear().apply()
+    this.preference.edit { clear() }
   }
+
+  private inline fun SharedPreferences.edit(
+    action: SharedPreferences.Editor.() -> Unit
+  ) {
+    val editor = edit()
+    action(editor)
+    editor.apply()
+  }
+
 
   /** Builder class for creating [Only]. */
   @OnlyDsl
