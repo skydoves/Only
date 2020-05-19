@@ -26,7 +26,7 @@
 Add a dependency code to your **module**'s `build.gradle` file.
 ```gradle
 dependencies {
-    implementation "com.github.skydoves:only:1.0.5"
+    implementation "com.github.skydoves:only:1.0.6"
 }
 ```
 
@@ -121,7 +121,7 @@ If the version is different from the old version, run times will be initialized 
 Only.onDo("introPopup", times = 3,
   onDo = { showIntroPopup() },
   onDone = { doSomethingAfterDone() },
-  version = "1.1.1.1"
+  version = BuildConfig.VERSION_NAME // we can set manually. e.g. "1.1.1.1"
 )
 
 // kotlin dsl
@@ -138,7 +138,7 @@ We can run Only using `Only.Builder` class like below.
 Only.Builder("introPopup", times = 3)
   .onDo { showIntroPopup() }
   .onDone { doSomethingAfterDone() }
-  .version("1.1.1.1")
+  .version(BuildConfig.VERSION_NAME)
   .run()
 ```
 
@@ -202,8 +202,10 @@ val marking = Only.getMarking("introPopup") // gets the marked data.
 Sometimes on debug, we don't need to persist data and replay onDone block. <br>
 `onlyOnDoDebugMode` helps that ignore persistence data and onDone block when initialization. It runs only onDo block.
 ```kotlin
-Only.init(this)
-   .onlyOnDoDebugMode(true)
+val only = Only.init(application)
+if (BuildConfig.DEBUG) {
+  only.onlyOnDoDebugMode(true)
+}
 ```
 
 ## Usage in Java
