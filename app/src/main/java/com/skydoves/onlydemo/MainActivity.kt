@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
       onDone {
         Toast.makeText(baseContext, "done", Toast.LENGTH_SHORT).show()
       }
+      version = BuildConfig.VERSION_NAME
     }
 
     button.onlyVisibility(name = "button", times = 1, visible = true)

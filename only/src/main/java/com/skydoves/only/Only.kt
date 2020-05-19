@@ -324,13 +324,13 @@ object Only {
   @JvmStatic
   @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
   fun affectVersion(name: String, version: String): Boolean {
-    val renderVersion = if (version.isEmpty()) buildVersion else version
-    if (getOnlyVersion(name).equals(renderVersion)) {
-      return false
+    return if (version.isEmpty() || getOnlyVersion(name).equals(version)) {
+      false
+    } else {
+      setOnlyVersion(name, version)
+      setOnlyTimes(name, 0)
+      true
     }
-    setOnlyTimes(name, 0)
-    setOnlyVersion(name, renderVersion)
-    return true
   }
 
   /** get the Only version from the preference. */
