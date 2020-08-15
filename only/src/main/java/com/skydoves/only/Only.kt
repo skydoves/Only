@@ -102,7 +102,7 @@ object Only {
   inline fun onDo(
     name: String,
     times: Int,
-    crossinline onDo: () -> Unit
+    crossinline onDo: (Int) -> Unit
   ): Only {
 
     onDo(name, times, onDo, { })
@@ -117,7 +117,7 @@ object Only {
   inline fun onDo(
     name: String,
     times: Int,
-    crossinline onDo: () -> Unit,
+    crossinline onDo: (Int) -> Unit,
     crossinline onDone: () -> Unit
   ): Only {
 
@@ -133,7 +133,7 @@ object Only {
   inline fun onDo(
     name: String,
     times: Int,
-    crossinline onDo: () -> Unit,
+    crossinline onDo: (Int) -> Unit,
     version: String = ""
   ): Only {
 
@@ -152,7 +152,7 @@ object Only {
   inline fun onDo(
     name: String,
     times: Int,
-    crossinline onDo: () -> Unit,
+    crossinline onDo: (Int) -> Unit,
     crossinline onDone: () -> Unit,
     version: String = ""
   ): Only {
@@ -173,27 +173,27 @@ object Only {
   inline fun onDo(
     name: String,
     times: Int,
-    crossinline onDo: () -> Unit,
+    crossinline onDo: (Int) -> Unit,
     crossinline onDone: () -> Unit,
     crossinline onLastDo: () -> Unit = {},
     crossinline onBeforeDone: () -> Unit = {}
   ): Only {
+    val persistedOnlyTimes = getOnlyTimes(name)
 
     // run only onDo block when debug mode.
     if (isDebugMode()) {
-      onDo()
+      onDo(persistedOnlyTimes)
       return this@Only
     }
 
-    val persistCode = getOnlyTimes(name)
-    if (persistCode < times) {
-      setOnlyTimes(name, persistCode + 1)
-      onDo()
+    if (persistedOnlyTimes < times) {
+      setOnlyTimes(name, persistedOnlyTimes + 1)
+      onDo(persistedOnlyTimes)
 
-      if (persistCode == times - 1) {
+      if (persistedOnlyTimes == times - 1) {
         onLastDo()
       }
-    } else if (persistCode >= times) {
+    } else if (persistedOnlyTimes >= times) {
       if (!getOnBeforeDoneExecuted(name)) {
         setOnBeforeDoneExecuted(name)
         onBeforeDone()
@@ -212,7 +212,7 @@ object Only {
   inline fun onDo(
     name: String,
     times: Int,
-    crossinline onDo: () -> Unit,
+    crossinline onDo: (Int) -> Unit,
     crossinline onDone: () -> Unit,
     crossinline onLastDo: () -> Unit = {},
     crossinline onBeforeDone: () -> Unit = {},
@@ -228,7 +228,7 @@ object Only {
   @JvmStatic
   inline fun onDoOnce(
     name: String,
-    crossinline onDo: () -> Unit,
+    crossinline onDo: (Int) -> Unit,
     crossinline onDone: () -> Unit = {},
     version: String = ""
   ): Only {
@@ -241,7 +241,7 @@ object Only {
   @JvmStatic
   inline fun onDoOnce(
     name: String,
-    crossinline onDo: () -> Unit,
+    crossinline onDo: (Int) -> Unit,
     crossinline onDone: () -> Unit = {},
     crossinline onLastDo: () -> Unit = {},
     crossinline onBeforeDone: () -> Unit = {},
@@ -256,7 +256,7 @@ object Only {
   @JvmStatic
   inline fun onDoTwice(
     name: String,
-    crossinline onDo: () -> Unit,
+    crossinline onDo: (Int) -> Unit,
     crossinline onDone: () -> Unit = {},
     version: String = ""
   ): Only {
@@ -269,7 +269,7 @@ object Only {
   @JvmStatic
   inline fun onDoTwice(
     name: String,
-    crossinline onDo: () -> Unit,
+    crossinline onDo: (Int) -> Unit,
     crossinline onDone: () -> Unit = {},
     crossinline onLastDo: () -> Unit = {},
     crossinline onBeforeDone: () -> Unit = {},
@@ -284,7 +284,7 @@ object Only {
   @JvmStatic
   inline fun onDoThrice(
     name: String,
-    crossinline onDo: () -> Unit,
+    crossinline onDo: (Int) -> Unit,
     crossinline onDone: () -> Unit = {},
     version: String = ""
   ): Only {
@@ -297,7 +297,7 @@ object Only {
   @JvmStatic
   inline fun onDoThrice(
     name: String,
-    crossinline onDo: () -> Unit,
+    crossinline onDo: (Int) -> Unit,
     crossinline onDone: () -> Unit = {},
     crossinline onLastDo: () -> Unit = {},
     crossinline onBeforeDone: () -> Unit = {},
@@ -417,20 +417,25 @@ object Only {
   ) {
 
     @JvmField
-    var onDo: () -> Unit = { }
+    var onDo: (Int) -> Unit = { }
+
     @JvmField
     var onDone: () -> Unit = { }
+
     @JvmField
     var onLastDo: () -> Unit = { }
+
     @JvmField
     var onBeforeDone: () -> Unit = { }
+
     @JvmField
     var version: String = ""
+
     @JvmField
     var marking: Any? = null
 
     /** executes the [onDo] block only as many times as necessary. */
-    fun onDo(onDo: () -> Unit): Builder = apply { this.onDo = onDo }
+    fun onDo(onDo: (Int) -> Unit): Builder = apply { this.onDo = onDo }
 
     /** executes the [onDo] block only as many times as necessary. */
     fun onDo(runnable: Runnable): Builder = apply { this.onDo = { runnable.run() } }
