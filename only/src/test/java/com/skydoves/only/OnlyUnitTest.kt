@@ -35,7 +35,8 @@ class OnlyUnitTest {
   fun initOnly() {
     Only.init(
       context = RuntimeEnvironment.application,
-      buildVersion = BuildConfig.VERSION_NAME)
+      buildVersion = BuildConfig.VERSION_NAME
+    )
   }
 
   @After
@@ -322,7 +323,8 @@ class OnlyUnitTest {
   fun debugModeTest() {
     Only.init(
       context = RuntimeEnvironment.application,
-      buildVersion = BuildConfig.VERSION_NAME).onlyOnDoDebugMode(true)
+      buildVersion = BuildConfig.VERSION_NAME
+    ).onlyOnDoDebugMode(true)
 
     var count = 0
 

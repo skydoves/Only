@@ -34,7 +34,8 @@ class OnlyInstrumentTest {
   fun initOnly() {
     Only.init(
       context = InstrumentationRegistry.getInstrumentation().targetContext,
-      buildVersion = BuildConfig.VERSION_NAME)
+      buildVersion = BuildConfig.VERSION_NAME
+    )
   }
 
   @After
@@ -320,7 +321,8 @@ class OnlyInstrumentTest {
   fun debugModeTest() {
     Only.init(
       context = InstrumentationRegistry.getInstrumentation().targetContext,
-      buildVersion = BuildConfig.VERSION_NAME).onlyOnDoDebugMode(true)
+      buildVersion = BuildConfig.VERSION_NAME
+    ).onlyOnDoDebugMode(true)
 
     var count = 0
 
