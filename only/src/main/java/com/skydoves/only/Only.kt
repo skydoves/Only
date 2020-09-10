@@ -102,6 +102,18 @@ object Only {
   }
 
   /** execute the onDo block only as many times as necessary. */
+  @JvmStatic
+  fun onDo(
+    name: String,
+    times: Int,
+    onDO: Runnable
+  ): Only {
+
+    onDo(name, times) { onDO.run() }
+    return this@Only
+  }
+
+  /** execute the onDo block only as many times as necessary. */
   @JvmSynthetic
   inline fun onDo(
     name: String,
@@ -110,6 +122,22 @@ object Only {
   ): Only {
 
     onDo(name, times, onDo, { })
+    return this@Only
+  }
+
+  /**
+   * execute the onDo block only as many times as necessary.
+   * if unnecessary, unCatch block will be executed.
+   */
+  @JvmStatic
+  fun onDo(
+    name: String,
+    times: Int,
+    onDo: Runnable,
+    onDone: Runnable
+  ): Only {
+
+    onDo(name, times, { onDo.run() }, { onDone.run() })
     return this@Only
   }
 
@@ -126,6 +154,22 @@ object Only {
   ): Only {
 
     onDo(name, times, onDo, onDone, { }, { })
+    return this@Only
+  }
+
+  /**
+   * execute the onDo block only as many times as necessary.
+   * if the version is different from the old version, Only times will be initialized 0.
+   */
+  @JvmStatic
+  fun onDo(
+    name: String,
+    times: Int,
+    onDo: Runnable,
+    version: String = ""
+  ): Only {
+
+    onDo(name, times, { onDo.run() }, version)
     return this@Only
   }
 
@@ -152,6 +196,24 @@ object Only {
    * if unnecessary, unCatch block will be executed.
    * if the version is different from the old version, Only times will be initialized 0.
    */
+  @JvmStatic
+  fun onDo(
+    name: String,
+    times: Int,
+    onDo: Runnable,
+    onDone: Runnable,
+    version: String = ""
+  ): Only {
+
+    onDo(name, times, { onDo.run() }, { onDone.run() }, version)
+    return this@Only
+  }
+
+  /**
+   * execute the onDo block only as many times as necessary.
+   * if unnecessary, unCatch block will be executed.
+   * if the version is different from the old version, Only times will be initialized 0.
+   */
   @JvmSynthetic
   inline fun onDo(
     name: String,
@@ -163,6 +225,27 @@ object Only {
 
     affectVersion(name, version)
     onDo(name, times, onDo, onDone, { }, { })
+    return this@Only
+  }
+
+  /**
+   * execute the onDo block only as many times as necessary.
+   * if unnecessary, unCatch block will be executed.
+   * if the version is different from the old version, Only times will be initialized 0.
+   * onLastDo block will be run only once after the last run time of the onDo.
+   * onBeforeDone block will be run only once before the onDone block will be run.
+   */
+  @JvmStatic
+  fun onDo(
+    name: String,
+    times: Int,
+    onDo: Runnable,
+    onDone: Runnable,
+    onLastDo: Runnable,
+    onBeforeDone: Runnable
+  ): Only {
+
+    onDo(name, times, { onDo.run() }, { onDone.run() }, { onLastDo.run() }, { onBeforeDone.run() })
     return this@Only
   }
 
@@ -212,6 +295,26 @@ object Only {
    * if unnecessary, unCatch block will be executed.
    * if the version is different from the old version, Only times will be initialized 0.
    */
+  @JvmStatic
+  fun onDo(
+    name: String,
+    times: Int,
+    onDo: Runnable,
+    onDone: Runnable,
+    onLastDo: Runnable,
+    onBeforeDone: Runnable,
+    version: String = ""
+  ): Only {
+
+    onDo(name, times, { onDo.run() }, { onDone.run() }, { onLastDo.run() }, { onBeforeDone.run() }, version)
+    return this@Only
+  }
+
+  /**
+   * execute the onDo block only as many times as necessary with onLastDo and onBeforeDone.
+   * if unnecessary, unCatch block will be executed.
+   * if the version is different from the old version, Only times will be initialized 0.
+   */
   @JvmSynthetic
   inline fun onDo(
     name: String,
@@ -229,6 +332,19 @@ object Only {
   }
 
   /** execute the onDo block only once. */
+  @JvmStatic
+  fun onDoOnce(
+    name: String,
+    onDo: Runnable,
+    onDone: Runnable,
+    version: String = ""
+  ): Only {
+
+    onDoOnce(name, { onDo.run() }, { onDone.run() }, version)
+    return this@Only
+  }
+
+  /** execute the onDo block only once. */
   @JvmSynthetic
   inline fun onDoOnce(
     name: String,
@@ -238,6 +354,21 @@ object Only {
   ): Only {
 
     onDo(name, 1, onDo, onDone, version)
+    return this@Only
+  }
+
+  /** execute the onDo block only once with onLastDo and onBeforeDone. */
+  @JvmStatic
+  fun onDoOnce(
+    name: String,
+    onDo: Runnable,
+    onDone: Runnable,
+    onLastDo: Runnable,
+    onBeforeDone: Runnable,
+    version: String = ""
+  ): Only {
+
+    onDoOnce(name, { onDo.run() }, { onDone.run() }, { onLastDo.run() }, { onBeforeDone.run() }, version)
     return this@Only
   }
 
@@ -257,6 +388,19 @@ object Only {
   }
 
   /** execute the onDo block only twice. */
+  @JvmStatic
+  fun onDoTwice(
+    name: String,
+    onDo: Runnable,
+    onDone: Runnable,
+    version: String = ""
+  ): Only {
+
+    onDoTwice(name, { onDo.run() }, { onDone.run() }, version)
+    return this@Only
+  }
+
+  /** execute the onDo block only twice. */
   @JvmSynthetic
   inline fun onDoTwice(
     name: String,
@@ -266,6 +410,21 @@ object Only {
   ): Only {
 
     onDo(name, 2, onDo, onDone, version)
+    return this@Only
+  }
+
+  /** execute the onDo block only twice with onLastDo and onBeforeDone. */
+  @JvmStatic
+  fun onDoTwice(
+    name: String,
+    onDo: Runnable,
+    onDone: Runnable,
+    onLastDo: Runnable,
+    onBeforeDone: Runnable,
+    version: String = ""
+  ): Only {
+
+    onDoTwice(name, { onDo.run() }, { onDone.run() }, { onLastDo.run() }, { onBeforeDone.run() }, version)
     return this@Only
   }
 
@@ -285,6 +444,19 @@ object Only {
   }
 
   /** execute the onDo block only thrice. */
+  @JvmStatic
+  fun onDoThrice(
+    name: String,
+    onDo: Runnable,
+    onDone: Runnable,
+    version: String = ""
+  ): Only {
+
+    onDoThrice(name, { onDo.run() }, { onDone.run() }, version)
+    return this@Only
+  }
+
+  /** execute the onDo block only thrice. */
   @JvmSynthetic
   inline fun onDoThrice(
     name: String,
@@ -294,6 +466,21 @@ object Only {
   ): Only {
 
     onDo(name, 3, onDo, onDone, version)
+    return this@Only
+  }
+
+  /** execute the onDo block only thrice with onLastDo and onBeforeDone. */
+  @JvmStatic
+  fun onDoThrice(
+    name: String,
+    onDo: Runnable,
+    onDone: Runnable,
+    onLastDo: Runnable,
+    onBeforeDone: Runnable,
+    version: String = ""
+  ): Only {
+
+    onDoThrice(name, { onDo.run() }, { onDone.run() }, { onLastDo.run() }, { onBeforeDone.run() }, version)
     return this@Only
   }
 
