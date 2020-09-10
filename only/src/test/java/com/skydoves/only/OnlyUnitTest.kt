@@ -56,6 +56,15 @@ class OnlyUnitTest {
   }
 
   @Test
+  fun onDoWithRunnableTest() {
+    var count = 0
+    Only.onDo("onDoWithRunnableTest", times = 1, Runnable { count++ })
+
+    MatcherAssert.assertThat(count, CoreMatchers.`is`(1))
+    MatcherAssert.assertThat(Only.getOnlyTimes("onDoWithRunnableTest"), CoreMatchers.`is`(1))
+  }
+
+  @Test
   fun onDoOnceTest() {
     var count = 0
 
@@ -65,6 +74,22 @@ class OnlyUnitTest {
 
     MatcherAssert.assertThat(count, CoreMatchers.`is`(1))
     MatcherAssert.assertThat(Only.getOnlyTimes("onDoOnceTest"), CoreMatchers.`is`(1))
+  }
+
+  @Test
+  fun onDoOnceWithRunnableTest() {
+    var count = 0
+
+    for (i in 0..5) {
+      Only.onDoOnce(
+        "onDoOnceWithRunnableTest",
+        onDo = Runnable { count++ },
+        onDone = Runnable { }
+      )
+    }
+
+    MatcherAssert.assertThat(count, CoreMatchers.`is`(1))
+    MatcherAssert.assertThat(Only.getOnlyTimes("onDoOnceWithRunnableTest"), CoreMatchers.`is`(1))
   }
 
   @Test
@@ -80,6 +105,22 @@ class OnlyUnitTest {
   }
 
   @Test
+  fun onDoTwiceWithRunnableTest() {
+    var count = 0
+
+    for (i in 0..5) {
+      Only.onDoTwice(
+        "onDoTwiceWithRunnableTest",
+        onDo = Runnable { count++ },
+        onDone = Runnable { }
+      )
+    }
+
+    MatcherAssert.assertThat(count, CoreMatchers.`is`(2))
+    MatcherAssert.assertThat(Only.getOnlyTimes("onDoTwiceWithRunnableTest"), CoreMatchers.`is`(2))
+  }
+
+  @Test
   fun onDoThriceTest() {
     var count = 0
 
@@ -92,7 +133,23 @@ class OnlyUnitTest {
   }
 
   @Test
-  fun onlyOnceTest() {
+  fun onDoThriceWithRunnableTest() {
+    var count = 0
+
+    for (i in 0..5) {
+      Only.onDoThrice(
+        "onDoThriceWithRunnableTest",
+        onDo = Runnable { count++ },
+        onDone = Runnable { }
+      )
+    }
+
+    MatcherAssert.assertThat(count, CoreMatchers.`is`(3))
+    MatcherAssert.assertThat(Only.getOnlyTimes("onDoThriceWithRunnableTest"), CoreMatchers.`is`(3))
+  }
+
+  @Test
+  fun onlyOnceExtensionTest() {
     var count = 0
 
     for (i in 0..5) {
@@ -106,7 +163,7 @@ class OnlyUnitTest {
   }
 
   @Test
-  fun onlyTwiceTest() {
+  fun onlyTwiceExtensionTest() {
     var count = 0
 
     for (i in 0..5) {
@@ -120,7 +177,7 @@ class OnlyUnitTest {
   }
 
   @Test
-  fun onlyTriceTest() {
+  fun onlyTriceExtensionTest() {
     var count = 0
 
     for (i in 0..5) {
@@ -145,6 +202,23 @@ class OnlyUnitTest {
 
     MatcherAssert.assertThat(count, CoreMatchers.`is`(2))
     MatcherAssert.assertThat(Only.getOnlyTimes("onDoTestWithTimes"), CoreMatchers.`is`(2))
+  }
+
+  @Test
+  fun onDoTestWithTimesRunnableTest() {
+    var count = 0
+
+    for (i in 0..5) {
+      Only.onDo(
+        "onDoTestWithTimesRunnableTest",
+        times = 2,
+        onDo = Runnable { count++ },
+        onDone = Runnable { }
+      )
+    }
+
+    MatcherAssert.assertThat(count, CoreMatchers.`is`(2))
+    MatcherAssert.assertThat(Only.getOnlyTimes("onDoTestWithTimesRunnableTest"), CoreMatchers.`is`(2))
   }
 
   @Test
