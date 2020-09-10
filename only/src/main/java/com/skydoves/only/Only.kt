@@ -25,25 +25,29 @@ import androidx.annotation.RestrictTo
 import androidx.annotation.VisibleForTesting
 
 @DslMarker
-annotation class OnlyDsl
+internal annotation class OnlyDsl
 
 /** Run [Only] by [Only.Builder] using kotlin dsl. */
 @OnlyDsl
+@JvmSynthetic
 inline fun only(name: String, times: Int, block: Only.Builder.() -> Unit): Unit =
   Only.Builder(name, times).apply(block).run()
 
 /** Run only once [Only] by [Only.Builder] using kotlin dsl. */
 @OnlyDsl
+@JvmSynthetic
 inline fun onlyOnce(name: String, times: Int = 1, block: Only.Builder.() -> Unit): Unit =
   Only.Builder(name, times).apply(block).run()
 
 /** Run only twice [Only] by [Only.Builder] using kotlin dsl. */
 @OnlyDsl
+@JvmSynthetic
 inline fun onlyTwice(name: String, times: Int = 2, block: Only.Builder.() -> Unit): Unit =
   Only.Builder(name, times).apply(block).run()
 
 /** Run only thrice [Only] by [Only.Builder] using kotlin dsl. */
 @OnlyDsl
+@JvmSynthetic
 inline fun onlyThrice(name: String, times: Int = 3, block: Only.Builder.() -> Unit): Unit =
   Only.Builder(name, times).apply(block).run()
 
@@ -98,7 +102,7 @@ object Only {
   }
 
   /** execute the onDo block only as many times as necessary. */
-  @JvmStatic
+  @JvmSynthetic
   inline fun onDo(
     name: String,
     times: Int,
@@ -113,7 +117,7 @@ object Only {
    * execute the onDo block only as many times as necessary.
    * if unnecessary, unCatch block will be executed.
    */
-  @JvmStatic
+  @JvmSynthetic
   inline fun onDo(
     name: String,
     times: Int,
@@ -129,7 +133,7 @@ object Only {
    * execute the onDo block only as many times as necessary.
    * if the version is different from the old version, Only times will be initialized 0.
    */
-  @JvmStatic
+  @JvmSynthetic
   inline fun onDo(
     name: String,
     times: Int,
@@ -148,7 +152,7 @@ object Only {
    * if unnecessary, unCatch block will be executed.
    * if the version is different from the old version, Only times will be initialized 0.
    */
-  @JvmStatic
+  @JvmSynthetic
   inline fun onDo(
     name: String,
     times: Int,
@@ -169,7 +173,7 @@ object Only {
    * onLastDo block will be run only once after the last run time of the onDo.
    * onBeforeDone block will be run only once before the onDone block will be run.
    */
-  @JvmStatic
+  @JvmSynthetic
   inline fun onDo(
     name: String,
     times: Int,
@@ -208,7 +212,7 @@ object Only {
    * if unnecessary, unCatch block will be executed.
    * if the version is different from the old version, Only times will be initialized 0.
    */
-  @JvmStatic
+  @JvmSynthetic
   inline fun onDo(
     name: String,
     times: Int,
@@ -225,7 +229,7 @@ object Only {
   }
 
   /** execute the onDo block only once. */
-  @JvmStatic
+  @JvmSynthetic
   inline fun onDoOnce(
     name: String,
     crossinline onDo: (Int) -> Unit,
@@ -238,7 +242,7 @@ object Only {
   }
 
   /** execute the onDo block only once with onLastDo and onBeforeDone. */
-  @JvmStatic
+  @JvmSynthetic
   inline fun onDoOnce(
     name: String,
     crossinline onDo: (Int) -> Unit,
@@ -253,7 +257,7 @@ object Only {
   }
 
   /** execute the onDo block only twice. */
-  @JvmStatic
+  @JvmSynthetic
   inline fun onDoTwice(
     name: String,
     crossinline onDo: (Int) -> Unit,
@@ -266,7 +270,7 @@ object Only {
   }
 
   /** execute the onDo block only twice with onLastDo and onBeforeDone. */
-  @JvmStatic
+  @JvmSynthetic
   inline fun onDoTwice(
     name: String,
     crossinline onDo: (Int) -> Unit,
@@ -281,7 +285,7 @@ object Only {
   }
 
   /** execute the onDo block only thrice. */
-  @JvmStatic
+  @JvmSynthetic
   inline fun onDoThrice(
     name: String,
     crossinline onDo: (Int) -> Unit,
@@ -294,7 +298,7 @@ object Only {
   }
 
   /** execute the onDo block only thrice with onLastDo and onBeforeDone. */
-  @JvmStatic
+  @JvmSynthetic
   inline fun onDoThrice(
     name: String,
     crossinline onDo: (Int) -> Unit,
@@ -435,24 +439,28 @@ object Only {
     var marking: Any? = null
 
     /** executes the [onDo] block only as many times as necessary. */
+    @JvmSynthetic
     fun onDo(onDo: (Int) -> Unit): Builder = apply { this.onDo = onDo }
 
     /** executes the [onDo] block only as many times as necessary. */
     fun onDo(runnable: Runnable): Builder = apply { this.onDo = { runnable.run() } }
 
     /** executes the [onDone] block after executing x+1 times [onDo] block. */
+    @JvmSynthetic
     fun onDone(onDone: () -> Unit): Builder = apply { this.onDone = onDone }
 
     /** executes the [onDone] block after executing x+1 times [onDo] block. */
     fun onDone(runnable: Runnable): Builder = apply { this.onDone = { runnable.run() } }
 
     /** executes only once the [onLastDo] block after finishing x times [onDo] block. */
+    @JvmSynthetic
     fun onLastDo(onLastDo: () -> Unit): Builder = apply { this.onLastDo = onLastDo }
 
     /** executes only once the [onLastDo] block after finishing x times [onDo] block. */
     fun onLastDo(runnable: Runnable): Builder = apply { this.onLastDo = { runnable.run() } }
 
     /** executes only once the [onBeforeDone] block after before executing [onDone] block. */
+    @JvmSynthetic
     fun onBeforeDone(onBeforeDone: () -> Unit): Builder = apply { this.onBeforeDone = onBeforeDone }
 
     /** executes only once the [onBeforeDone] block after before executing [onDone] block. */
