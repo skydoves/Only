@@ -26,7 +26,7 @@
 Add a dependency code to your **module**'s `build.gradle` file.
 ```gradle
 dependencies {
-    implementation "com.github.skydoves:only:1.0.6"
+    implementation "com.github.skydoves:only:1.0.7"
 }
 ```
 
@@ -50,6 +50,10 @@ Only.onDo("introPopup", times = 3) {
 only("introPopup", times = 3) {
   onDo { showIntroPopup() }
 }
+```
+Here is the Java codes.
+```java
+Only.onDo("introPopup", 1, () -> showIntroPopup());
 ```
 
 ### onDone
@@ -77,6 +81,13 @@ only("introPopup", times = 3) {
     toast("done")
   }
 }
+```
+Here is the Java codes.
+```java
+Only.onDo("introPopup", 1,
+    () -> doSomethingOnlyOnce(), // onDo
+    () -> doSOmethingAfterDone() // onDone
+);
 ```
 
 ### onLastDo, onBeforeDone
@@ -217,8 +228,23 @@ if (times < 3) {
     showIntroPopup();
 }
 ```
-### Builder
-we can run `Only` in java project using `Only.Builder` and `Runnable`.
+### Java Supports
+we can run `Only` in our java project.
+```java
+Only.onDo("introPopup", 1,
+    new Runnable() {
+  @Override
+  public void run() {
+    doSomethingOnlyOnce();
+  }
+}, new Runnable() {
+  @Override
+  public void run() {
+    doSOmethingAfterDone();
+  }
+});
+```
+Or we can run using `Only.Builder` like below.
 ```java
 new Only.Builder("introPopup", 1)
   .onDo(new Runnable() {
@@ -239,21 +265,18 @@ We can make it more simple using Java8 lambda expression.<br>
 Add below codes on your `build.gradle` file.
 ```gradle
 android {
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+  compileOptions {
+      sourceCompatibility JavaVersion.VERSION_1_8
+      targetCompatibility JavaVersion.VERSION_1_8
+  }
 }
 ```
 Then you can run the Only like below.
 ```java
-new Only.Builder("introPopup", 1)
-    .onDo(() -> {
-      doSomethingOnlyOnce();
-    })
-    .onDone(() -> {
-      doSOmethingAfterDone();
-    }).run(); // run the Only
+Only.onDo("introPopup", 1,
+    () -> doSomethingOnlyOnce(), // onDo
+    () -> doSOmethingAfterDone() // onDone
+);
 ```
 ### Custom util class
 We can create custom util class like what Kotlin's `onlyOnce`.
