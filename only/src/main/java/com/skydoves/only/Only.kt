@@ -608,21 +608,27 @@ object Only {
   ) {
 
     @JvmField
+    @set:JvmSynthetic
     var onDo: (Int) -> Unit = { }
 
     @JvmField
+    @set:JvmSynthetic
     var onDone: () -> Unit = { }
 
     @JvmField
+    @set:JvmSynthetic
     var onLastDo: () -> Unit = { }
 
     @JvmField
+    @set:JvmSynthetic
     var onBeforeDone: () -> Unit = { }
 
     @JvmField
+    @set:JvmSynthetic
     var version: String = ""
 
     @JvmField
+    @set:JvmSynthetic
     var marking: Any? = null
 
     /** executes the [onDo] block only as many times as necessary. */
