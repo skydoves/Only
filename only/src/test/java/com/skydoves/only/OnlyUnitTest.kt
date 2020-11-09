@@ -35,7 +35,7 @@ class OnlyUnitTest {
   fun initOnly() {
     Only.init(
       context = RuntimeEnvironment.application,
-      buildVersion = BuildConfig.VERSION_NAME
+      buildVersion = "1.0.0"
     )
   }
 
@@ -397,7 +397,7 @@ class OnlyUnitTest {
   fun debugModeTest() {
     Only.init(
       context = RuntimeEnvironment.application,
-      buildVersion = BuildConfig.VERSION_NAME
+      buildVersion = "1.0.0"
     ).onlyOnDoDebugMode(true)
 
     var count = 0

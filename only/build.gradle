@@ -18,6 +18,9 @@ android {
             includeAndroidResources = true
         }
     }
+    buildFeatures {
+        buildConfig false
+    }
 }
 
 kotlin {
