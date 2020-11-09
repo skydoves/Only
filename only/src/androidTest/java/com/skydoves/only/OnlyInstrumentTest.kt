@@ -34,7 +34,7 @@ class OnlyInstrumentTest {
   fun initOnly() {
     Only.init(
       context = InstrumentationRegistry.getInstrumentation().targetContext,
-      buildVersion = BuildConfig.VERSION_NAME
+      buildVersion = "1.0.0"
     )
   }
 
@@ -321,7 +321,7 @@ class OnlyInstrumentTest {
   fun debugModeTest() {
     Only.init(
       context = InstrumentationRegistry.getInstrumentation().targetContext,
-      buildVersion = BuildConfig.VERSION_NAME
+      buildVersion = "1.0.0"
     ).onlyOnDoDebugMode(true)
 
     var count = 0
