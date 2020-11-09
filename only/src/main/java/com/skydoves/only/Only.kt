@@ -71,7 +71,7 @@ object Only {
   /** initialize the Only default properties. */
   @JvmStatic
   @VisibleForTesting
-  fun init(context: Context, buildVersion: String): Only {
+  internal fun init(context: Context, buildVersion: String): Only {
     if (!::preference.isInitialized) {
       this.preference = context.applicationContext.getSharedPreferences("Only", Context.MODE_PRIVATE)
       this.isDebuggable = context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE
@@ -513,8 +513,9 @@ object Only {
 
   /** get version data from the preference. */
   @JvmStatic
+  @PublishedApi
   @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-  fun affectVersion(name: String, version: String): Boolean {
+  internal fun affectVersion(name: String, version: String): Boolean {
     return if (version.isEmpty() || getOnlyVersion(name).equals(version)) {
       false
     } else {
@@ -548,8 +549,9 @@ object Only {
 
   /** set Only executed or not about onBeforeDone. */
   @JvmStatic
+  @PublishedApi
   @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-  fun setOnBeforeDoneExecuted(name: String) {
+  internal fun setOnBeforeDoneExecuted(name: String) {
     this.preference.edit { putBoolean(getOnBeforeDoneName(name), true) }
   }
 
