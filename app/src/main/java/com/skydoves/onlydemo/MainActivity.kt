@@ -25,7 +25,7 @@ import com.skydoves.only.Only
 import com.skydoves.only.only
 import com.skydoves.only.onlyOnce
 import com.skydoves.only.onlyVisibility
-import kotlinx.android.synthetic.main.activity_main.*
+import com.skydoves.onlydemo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,7 +33,9 @@ class MainActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+
+    val binding = ActivityMainBinding.inflate(layoutInflater)
+    setContentView(binding.root)
 
     /**
      * initialize Only.
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     Only.init(this)
 
     onlyOnce("background") {
-      onDo { parentLayout.setBackgroundColor(Color.GRAY) }
+      onDo { binding.parentLayout.setBackgroundColor(Color.GRAY) }
     }
 
     only("Intro", times = 3) {
@@ -65,6 +67,6 @@ class MainActivity : AppCompatActivity() {
       version = BuildConfig.VERSION_NAME
     }
 
-    button.onlyVisibility(name = "button", times = 1, visible = true)
+    binding.button.onlyVisibility(name = "button", times = 1, visible = true)
   }
 }

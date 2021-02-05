@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka'
 apply from: '../dependencies.gradle'
-apply from: '../publish.gradle'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -35,17 +34,5 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$versions.junitExt"
 }
 
-dokka {
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/javadoc"
-    configuration {
-        moduleName = 'only'
-    }
-}
-
-tasks.withType(Javadoc) {
-    excludes = ['**/*.kt']
-    options.addBooleanOption('Xdoclint:none', true)
-}
-
+apply plugin: "com.vanniktech.maven.publish"
 apply from: '../spotless.gradle'
