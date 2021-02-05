@@ -7,7 +7,7 @@
     <a href="https://github.com/skydoves/Only/actions"><img alt="Build Status" src="https://github.com/skydoves/Only/workflows/Android%20CI/badge.svg"/></a><br>
   <a href="https://androidweekly.net/issues/issue-370"><img alt="Javadoc" src="https://img.shields.io/badge/Android%20Weekly-%23370-orange.svg"/></a>
   <a href="https://us12.campaign-archive.com/?u=f39692e245b94f7fb693b6d82&id=b12259cf32"><img alt="KotlinWeekly" src="https://img.shields.io/badge/KotlinWeekly-%23159-4E71E6"/></a>
-  <a href="https://skydoves.github.io/libraries/only/javadoc/only/com.skydoves.only/index.html"><img alt="Javadoc" src="https://img.shields.io/badge/Javadoc-Only-yellow.svg"/></a>
+  <a href="https://skydoves.github.io/libraries/only/html/only/com.skydoves.only/index.html"><img alt="Javadoc" src="https://img.shields.io/badge/Javadoc-Only-yellow.svg"/></a>
 </p>
 
 <p align="center">
